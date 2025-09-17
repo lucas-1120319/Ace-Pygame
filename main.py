@@ -3,7 +3,10 @@ from pygame import Vector2
 
 from entities.player import Player
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 FRAMES_PER_SECOND = 60
 game_clock = pygame.time.Clock()
