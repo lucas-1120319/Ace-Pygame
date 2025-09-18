@@ -4,7 +4,9 @@ class Player():
 
     def __init__(self, screen):
         self.screen = screen
-        self.speed = 12
+        self.speed = 0.2
+        self.max_speed = 15
+        self.velocity = 0
         self.DEFAULT_IMAGE = 2 # default forward spaceship image
         self.spriteSheet_image = self.DEFAULT_IMAGE
 
@@ -32,13 +34,31 @@ class Player():
 
 
     def move(self, direction):
-        self.playerRect.move_ip((self.speed * direction.x), (self.speed * direction.y))
+        #set velocity based on the a or d button
+        self.velocity = (direction.x * self.speed)  + self.velocity
+
+        #show correct image
         self.spriteSheet_image = self.DEFAULT_IMAGE + direction.x
+        if direction.x != 0:
+            if self.velocity > (self.max_speed * (2/3)):
+                self.spriteSheet_image = self.DEFAULT_IMAGE + 2
+            elif self.velocity < (-self.max_speed * (2/3)):
+                self.spriteSheet_image = self.DEFAULT_IMAGE - 2
+        #speed limiter
+        if self.velocity >= self.max_speed:
+            self.velocity = self.max_speed
+        if self.velocity <= -self.max_speed:
+            self.velocity = -self.max_speed
+
+        self.playerRect.move_ip(self.velocity, (self.speed * direction.y))
+
         #border detection
         if self.playerRect.left < self.screen.get_rect().left:
             self.playerRect.left = self.screen.get_rect().left
+            self.velocity = 0
         if self.playerRect.right > self.screen.get_rect().right:
             self.playerRect.right = self.screen.get_rect().right
+            self.velocity = 0
 
 
 

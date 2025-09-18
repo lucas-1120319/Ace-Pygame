@@ -15,8 +15,10 @@ def key_pressed():
     pressed_keys = pygame.key.get_pressed()
     if pressed_keys[pygame.K_a]:
         player_class.move(Vector2(-1, 0))
-    if pressed_keys[pygame.K_d]:
+    elif pressed_keys[pygame.K_d]:
         player_class.move(Vector2(1, 0))
+    else:
+        player_class.move(Vector2(0, 0))
     player_class.update()
 
 while True:
