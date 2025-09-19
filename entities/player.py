@@ -35,22 +35,23 @@ class Player():
 
     def move(self, direction):
         #set velocity based on the a or d button
-        self.velocity = (direction.x * self.speed)  + self.velocity
+        self.velocity += (direction * self.speed)
 
         #show correct image
-        self.spriteSheet_image = self.DEFAULT_IMAGE + direction.x
-        if direction.x != 0:
-            if self.velocity > (self.max_speed * (2/3)):
-                self.spriteSheet_image = self.DEFAULT_IMAGE + 2
-            elif self.velocity < (-self.max_speed * (2/3)):
-                self.spriteSheet_image = self.DEFAULT_IMAGE - 2
+        self.spriteSheet_image = self.DEFAULT_IMAGE + direction
+        if direction != 0:
+            #set lean pose if the velocity matches the direction
+            self.spriteSheet_image = self.DEFAULT_IMAGE + direction
+            if abs(self.velocity) > self.max_speed * (1 / 3) and (self.velocity * direction) > 0:
+                self.spriteSheet_image = self.DEFAULT_IMAGE + (2 * direction)
+
         #speed limiter
         if self.velocity >= self.max_speed:
             self.velocity = self.max_speed
         if self.velocity <= -self.max_speed:
             self.velocity = -self.max_speed
 
-        self.playerRect.move_ip(self.velocity, (self.speed * direction.y))
+        self.playerRect.move_ip(self.velocity, (self.speed * direction))
 
         #border detection
         if self.playerRect.left < self.screen.get_rect().left:
