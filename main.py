@@ -26,13 +26,12 @@ player_move_right_sfx.set_volume(0.5)
 
 def key_pressed():
     pressed_keys = pygame.key.get_pressed()
-
     if pressed_keys[pygame.K_a]:
-        player_class.move(-1)  # move left
-
-    if pressed_keys[pygame.K_d]:
-        player_class.move(1)   # move right
-
+        player_class.move(-1) # left
+    elif pressed_keys[pygame.K_d]:
+        player_class.move(1) # right
+    else:
+        player_class.move(0) #default (glide)
     player_class.update()
 
 
