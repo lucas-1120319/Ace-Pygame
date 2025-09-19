@@ -24,6 +24,12 @@ player_move_left_sfx.set_volume(0.5)
 player_move_right_sfx.set_volume(0.5)
 
 
+#Background (image)
+background = pygame.image.load("Assets/Backgrounds/Purple_Nebula_05-1024x1024.png").convert_alpha()
+scaled_background = pygame.transform.smoothscale(background, (1280, 720)) # scale background to screen size
+background_rect = scaled_background.get_rect()
+
+
 def key_pressed():
     pressed_keys = pygame.key.get_pressed()
     if pressed_keys[pygame.K_a]:
@@ -48,9 +54,11 @@ while True:
             if event.key == pygame.K_d:
                 player_move_right_sfx.play(maxtime=200)
 
-    screen.fill("red")
+
+    screen.blit(scaled_background, background_rect) # draw background
     key_pressed()
     pygame.display.flip()
     game_clock.tick(FRAMES_PER_SECOND)
 
 pygame.quit()
+
