@@ -37,8 +37,6 @@ load_button = pygame.image.load("Assets/UI/play_button.png").convert_alpha()
 scale_button = pygame.transform.smoothscale(load_button, (200, 75))
 play_button = Button(scale_button,  position)
 
-
-
 #Defining Game state
 game_state = "Menu"
 

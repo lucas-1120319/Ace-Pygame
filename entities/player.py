@@ -1,4 +1,7 @@
 import pygame
+import math
+from pygame import Vector2
+
 
 class Player():
 
@@ -11,9 +14,19 @@ class Player():
         self.spriteSheet_image = self.DEFAULT_IMAGE
 
         self.player_img = pygame.image.load("Assets/Player/Player01-Sheet.png").convert_alpha()
-        #first frame is needs to be the size of one player not the hole spritesheet
+
+
+        #first frame is needs to be the size of one player not the whole spritesheet
         first_frame = self.get_image(self.spriteSheet_image, 48, 48, 1)
-        self.playerRect = first_frame.get_rect(center=(screen.get_size()[0] / 2, screen.get_size()[1] / 1.1))
+
+        #clean copy, pre rotation
+        self.original_image = first_frame
+
+        #This  will hold the current image to be drawn
+        self.image = self.original_image.copy()
+
+        #Get the rectangle
+        self.rect = self.image.get_rect(center=(screen.get_size()[0] / 2, screen.get_size()[1] / 1.1))
 
 
     def get_image(self, frame,  width, height, scale):
@@ -25,9 +38,27 @@ class Player():
         image = pygame.transform.scale(image, (width * scale, height * scale))
         return image
 
+
     def update(self):
-        image = self.get_image(self.spriteSheet_image,48, 48, 1)
-        self.screen.blit(image, self.playerRect)
+        # This gets the un-rotated image based on the player's current movement state.
+        base_animation_frame = self.get_image(self.spriteSheet_image, 48, 48, 1)
+
+        # Get the current position of the mouse and the player's center
+        mouse_pos = pygame.mouse.get_pos()
+        player_center = self.rect.center
+
+        # Calculate the angle between the player and the mouse in degrees https://www.reddit.com/r/pygame/comments/pjzf2b/angle_to_mouse/ https://www.pygame.org/docs/ref/math.html#pygame.math.Vector2.angle_to
+        dx = mouse_pos[0] - player_center[0]
+        dy = mouse_pos[1] - player_center[1]
+        angle = math.degrees(math.atan2(-dy, dx)) - 90
+
+        # Rotate the CURRENT animation frame (not the original_image anymore)
+        self.image = pygame.transform.rotate(base_animation_frame, angle)
+
+        # Update the rect to prevent the sprite from wobbling as it rotates
+        self.rect = self.image.get_rect(center=player_center)
+
+        self.screen.blit(self.image, self.rect)
 
 
     def move(self, direction):
@@ -48,14 +79,14 @@ class Player():
         if self.velocity <= -self.max_speed:
             self.velocity = -self.max_speed
 
-        self.playerRect.move_ip(self.velocity, (self.speed * direction))
+        self.rect.move_ip(self.velocity, (self.speed * direction))
 
         #border detection
-        if self.playerRect.left < self.screen.get_rect().left:
-            self.playerRect.left = self.screen.get_rect().left
+        if self.rect.left < self.screen.get_rect().left:
+            self.rect.left = self.screen.get_rect().left
             self.velocity = 0
-        if self.playerRect.right > self.screen.get_rect().right:
-            self.playerRect.right = self.screen.get_rect().right
+        if self.rect.right > self.screen.get_rect().right:
+            self.rect.right = self.screen.get_rect().right
             self.velocity = 0
 
 
