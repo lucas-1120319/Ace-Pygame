@@ -15,8 +15,6 @@ class Player():
         first_frame = self.get_image(self.spriteSheet_image, 48, 48, 1)
         self.playerRect = first_frame.get_rect(center=(screen.get_size()[0] / 2, screen.get_size()[1] / 1.1))
 
-        screen.blit(self.player_img, self.playerRect)
-
 
     def get_image(self, frame,  width, height, scale):
         #https://www.youtube.com/watch?v=M6e3_8LHc7A
@@ -30,7 +28,6 @@ class Player():
     def update(self):
         image = self.get_image(self.spriteSheet_image,48, 48, 1)
         self.screen.blit(image, self.playerRect)
-        self.spriteSheet_image = self.DEFAULT_IMAGE
 
 
     def move(self, direction):
