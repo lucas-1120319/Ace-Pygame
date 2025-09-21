@@ -28,7 +28,7 @@ player_move_right_sfx.set_volume(0.5)
 
 #Background (image)
 background = pygame.image.load("Assets/Backgrounds/Purple_Nebula_05-1024x1024.png").convert_alpha()
-scaled_background = pygame.transform.smoothscale(background, (1280, 720)) # scale background to screen size
+scaled_background = pygame.transform.smoothscale(background, (SCREEN_WIDTH, SCREEN_HEIGHT)) # scale background to screen size
 background_rect = scaled_background.get_rect()
 
 #Button instance
