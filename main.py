@@ -5,6 +5,7 @@ from pygame import mixer
 
 from entities.player import Player
 from entities.button import Button
+from entities.Enemy import Enemy
 
 pygame.init()
 mixer.init()
@@ -16,6 +17,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 FRAMES_PER_SECOND = 60
 game_clock = pygame.time.Clock()
 player_class = Player(screen)
+enemy_class = Enemy(screen)
 
 # load sfx for player movement
 player_move_left_sfx = pygame.mixer.Sound("Assets/Sound_Effects/player-whoosh.wav")
@@ -87,6 +89,8 @@ while True:
     elif game_state == "Playing":
         screen.blit(scaled_background, background_rect)
         player_class.update()
+        enemy_class.update()
+        screen.blit(enemy_class.original_image, enemy_class.rect)
 
     pygame.display.flip()
     game_clock.tick(FRAMES_PER_SECOND)
