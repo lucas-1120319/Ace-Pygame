@@ -18,7 +18,7 @@ class Enemy():
         self.original_image = first_frame
 
         #rectangle maken om de enemy heen, zodat we collision kunnen meten
-        self.rect = self.original_image.get_rect(center =(screen.get_size()[0] /6,screen.get_size()[1]/ 3))
+        self.rect = self.original_image.get_rect(center =(screen.get_size()[0] /3,screen.get_size()[1]/ 8))
 
     def get_image(self, frame, width, height, scale):
         # https://www.youtube.com/watch?v=M6e3_8LHc7A

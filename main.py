@@ -5,6 +5,7 @@ from pygame import mixer
 
 from entities.player import Player
 from entities.button import Button
+from entities.button import Button
 from entities.Enemy import Enemy
 
 pygame.init()
